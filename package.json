@@ -1,0 +1,23 @@
+{
+  "name": "@kabawat/storefront-themes",
+  "version": "0.1.0",
+  "description": "DragBizz storefront theme documents, section schemas, presets and validation.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kabawat/DragBizz-Themes.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "test": "node --test",
+    "lint": "npx @biomejs/biome@2.4.2 check"
+  }
+}
