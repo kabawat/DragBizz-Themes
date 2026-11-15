@@ -21,6 +21,4 @@ npm run lint
 
 ## Publish
 
-The package is published to GitHub Packages by `.github/workflows/publish.yml`. Bump `version` in `package.json`, commit, then push a matching tag (`v0.1.0`). The workflow checks the tag, runs the tests and lint, and publishes with the repository's `GITHUB_TOKEN`.
-
-Installing needs a token with `read:packages`, configured for the `@kabawat` scope with the registry `https://npm.pkg.github.com`.
+The package is published publicly to npm by `.github/workflows/publish-npm.yml`, like `@kabawat/tax-engine`. Bump `version` in `package.json` and merge to `main`; the workflow skips versions that are already on npm, runs the tests and lint, and publishes with the repository's `NPM_TOKEN` secret. Installing needs no token.
