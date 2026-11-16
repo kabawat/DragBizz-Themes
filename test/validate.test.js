@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resolveSections, themes, validateDocument } from "../src/index.js";
+import {
+  missingAltText,
+  resolveSections,
+  themes,
+  validateDocument,
+  withPresetTemplates,
+} from "../src/index.js";
 
 const clone = (value) => structuredClone(value);
 const paths = (result) => result.errors.map((error) => error.path);
@@ -90,4 +96,46 @@ test("resolveSections fills defaults and skips disabled sections", () => {
       style: "primary",
     },
   });
+});
+
+test("checks theme-wide colours and fonts", () => {
+  const doc = clone(theme.preset);
+  doc.settings = { color_primary: "#0f766e", color_text: "", font: "poppins" };
+  assert.equal(validateDocument(doc, theme).valid, true);
+
+  doc.settings = { color_primary: "teal", font: "comic-sans" };
+  assert.deepEqual(paths(validateDocument(doc, theme)).sort(), [
+    "settings.color_primary",
+    "settings.font",
+  ]);
+});
+
+test("documents saved before page templates get them from the preset", () => {
+  const doc = clone(theme.preset);
+  delete doc.templates.category;
+  delete doc.templates.product;
+
+  const upgraded = withPresetTemplates(doc, theme);
+  assert.deepEqual(
+    upgraded.templates.category,
+    theme.preset.templates.category,
+  );
+  assert.deepEqual(upgraded.templates.product, theme.preset.templates.product);
+  assert.equal(upgraded.templates.home, doc.templates.home);
+  assert.equal(validateDocument(upgraded, theme).valid, true);
+  assert.equal(withPresetTemplates(upgraded, theme), upgraded);
+});
+
+test("finds images without a description, skipping hidden sections", () => {
+  const fashion = themes.temp_D;
+  const doc = clone(fashion.preset);
+  assert.deepEqual(missingAltText(doc, fashion), []);
+
+  doc.templates.home.sections.hero.settings = { image_alt: " " };
+  assert.deepEqual(missingAltText(doc, fashion), [
+    { group: "home", section: "hero", name: "Hero banner" },
+  ]);
+
+  doc.templates.home.sections.hero.disabled = true;
+  assert.deepEqual(missingAltText(doc, fashion), []);
 });

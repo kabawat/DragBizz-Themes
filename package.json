@@ -4,10 +4,12 @@
   "description": "DragBizz storefront theme documents, section schemas, presets and validation.",
   "type": "module",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./thumbnails/*": "./thumbnails/*"
   },
   "files": [
-    "src"
+    "src",
+    "thumbnails"
   ],
   "repository": {
     "type": "git",
