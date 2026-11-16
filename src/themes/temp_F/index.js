@@ -11,6 +11,7 @@ import {
 export default buildTheme({
   id: "temp_F",
   name: "Stationery & Office",
+  industry: "Stationery & Office",
   sections: [
     header({
       announcement:
@@ -91,6 +92,17 @@ export default buildTheme({
     },
     product: {
       related_heading: "Complementary Stationery in {category}",
+      labels: [
+        [
+          "loading_stationery_paper_details",
+          "Loading stationery paper details...",
+        ],
+        ["sold_out", "Sold Out"],
+        ["select_option_pack_quantity", "Select Option / Pack Quantity"],
+        ["paper_tool_craftsmanship", "Paper & Tool Craftsmanship:"],
+        ["ruling", "Ruling:"],
+        ["binding", "Binding:"],
+      ],
     },
   },
   blocks: {

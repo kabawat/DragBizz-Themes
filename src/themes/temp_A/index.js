@@ -25,6 +25,7 @@ export default withPages(
   {
     id: "temp_A",
     name: "Electronics & Gadgets",
+    industry: "Electronics",
     version: "1.0.0",
     settings: THEME_SETTINGS,
     sectionGroups: ["header", "footer"],
@@ -50,6 +51,29 @@ export default withPages(
     },
     product: {
       related_heading: "Compare with Similar Smartphones",
+      labels: [
+        [
+          "loading_smartphone_specifications",
+          "Loading smartphone specifications...",
+        ],
+        ["t_5g_enabled", "5G Enabled"],
+        ["out_of_stock", "Out of Stock"],
+        ["inclusive_of_all_taxes", "Inclusive of all taxes"],
+        ["or_pay", "Or pay"],
+        ["configuration_storage", "Configuration / Storage:"],
+        ["color_finish", "Color Finish:"],
+        ["key_highlights", "Key Highlights"],
+        ["full_technical_specifications", "Full Technical Specifications"],
+        ["view_all", "View All"],
+      ],
+      points: [
+        [
+          "1 Year Manufacturer Warranty on Device & 6 Months for In-Box Accessories",
+          "shield",
+        ],
+        ["7 Days Replacement Policy for Hardware Defect", "refresh"],
+        ["Express Insured Delivery with Free Transit Insurance", "zap"],
+      ],
       related_eyebrow: "Similar Tech",
     },
   },

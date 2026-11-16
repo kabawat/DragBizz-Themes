@@ -27,6 +27,18 @@ const CHECKS = {
     typeof value === "string" && (value === "" || HEX_COLOR.test(value))
       ? null
       : "must be a colour like #1d4ed8",
+  // A category slug from the store's catalog; empty means none chosen.
+  category: (value) =>
+    typeof value === "string" && value.length <= 120
+      ? null
+      : "must be a category",
+  // Product ids picked in the editor, in display order.
+  products: (value, def) =>
+    Array.isArray(value) &&
+    value.length <= (def.max ?? 12) &&
+    value.every((id) => typeof id === "string" && /^[a-f0-9]{24}$/i.test(id))
+      ? null
+      : `must be up to ${def.max ?? 12} products`,
   select: (value, def) =>
     def.options.includes(value)
       ? null

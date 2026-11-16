@@ -6,7 +6,14 @@ import tempE from "./themes/temp_E/index.js";
 import tempF from "./themes/temp_F/index.js";
 
 export { missingAltText } from "./accessibility.js";
+export { checkPublicThemeResponse } from "./contracts.js";
 export { LIMITS, SCHEMA_VERSION } from "./document.js";
+export {
+  COLOR_TOKENS,
+  DEFAULT_PALETTE,
+  effectiveColors,
+  PALETTES,
+} from "./palettes.js";
 export { resolveSections } from "./resolve.js";
 export { checkSetting, SETTING_TYPES, withDefaults } from "./settings.js";
 export { THEME_SETTINGS } from "./themeSettings.js";

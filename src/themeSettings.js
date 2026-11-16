@@ -79,4 +79,29 @@ export const THEME_SETTINGS = [
   ),
   field("Brand", image("logo", "Logo (replaces the store logo)", "")),
   field("Brand", image("favicon", "Favicon (square image)", "")),
+  // Two extra colour sets a section can switch to (its "Colour scheme" setting).
+  field("Colour schemes", {
+    ...color("scheme_light_background", "Light accent: background"),
+    default: "#eef2ff",
+  }),
+  field("Colour schemes", {
+    ...color("scheme_light_text", "Light accent: text"),
+    default: "#1e1b4b",
+  }),
+  field("Colour schemes", {
+    ...color("scheme_light_primary", "Light accent: buttons and links"),
+    default: "#4338ca",
+  }),
+  field("Colour schemes", {
+    ...color("scheme_dark_background", "Dark: background"),
+    default: "#0f172a",
+  }),
+  field("Colour schemes", {
+    ...color("scheme_dark_text", "Dark: text"),
+    default: "#f8fafc",
+  }),
+  field("Colour schemes", {
+    ...color("scheme_dark_primary", "Dark: buttons and links"),
+    default: "#60a5fa",
+  }),
 ];

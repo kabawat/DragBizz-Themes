@@ -1,3 +1,4 @@
+import { withBlocks } from "../blocks.js";
 import { checkbox, select, text, textarea } from "../fields.js";
 
 // Category, search and product pages, added to every theme. Texts may use {category} or {query}.
@@ -64,7 +65,37 @@ const productDetails = (values) => ({
       values.related_heading,
       120,
     ),
+    // The page's fixed wording, editable per theme; the label shown is the default text.
+    ...(values.labels ?? []).map(([id, value]) =>
+      value.length > 100
+        ? { ...textarea(id, value.slice(0, 60), value, 400), group: "Text" }
+        : { ...text(id, value, value, 120), group: "Text" },
+    ),
   ],
+  ...(values.points?.length && {
+    blocks: {
+      point: {
+        name: "Promise point",
+        limit: 6,
+        settings: [
+          text("text", "Text", "", 120),
+          select(
+            "icon",
+            "Icon",
+            ["check", "shield", "refresh", "zap"],
+            "check",
+            {
+              check: "Tick",
+              shield: "Shield",
+              refresh: "Return arrows",
+              zap: "Lightning",
+            },
+          ),
+        ],
+      },
+    },
+    maxBlocks: 6,
+  }),
 });
 
 const SPACING = ["default", "none", "small", "large"];
@@ -77,6 +108,20 @@ const SPACING_LABELS = {
 
 // Every section outside the header and footer can be shown per device and given extra space.
 export const LAYOUT_SETTINGS = [
+  {
+    ...select(
+      "color_scheme",
+      "Colour scheme",
+      ["default", "light", "dark"],
+      "default",
+      {
+        default: "Theme colours",
+        light: "Light accent",
+        dark: "Dark",
+      },
+    ),
+    group: "Layout",
+  },
   {
     ...select("visibility", "Show on", ["all", "desktop", "mobile"], "all", {
       all: "Mobile and desktop",
@@ -112,9 +157,49 @@ const withLayout = (section) =>
     ? section
     : { ...section, settings: [...section.settings, ...LAYOUT_SETTINGS] };
 
+// Which products a "Featured products" section shows.
+const PRODUCT_SOURCE = [
+  {
+    ...select(
+      "source",
+      "Show",
+      ["featured", "category", "picked"],
+      "featured",
+      {
+        featured: "Featured products",
+        category: "Products from a category",
+        picked: "Products I pick",
+      },
+    ),
+    group: "Products",
+  },
+  {
+    id: "category",
+    type: "category",
+    label: "Category",
+    default: "",
+    group: "Products",
+  },
+  {
+    id: "products",
+    type: "products",
+    label: "Products",
+    default: [],
+    max: 12,
+    group: "Products",
+  },
+];
+
 function extend(section) {
   const extra = ALSO_ON[section.type];
   if (!extra) return section;
+  if (section.type === "featured-products") {
+    return {
+      ...section,
+      templates: [...section.templates, ...extra],
+      settings: [...section.settings, ...PRODUCT_SOURCE],
+    };
+  }
   const settings =
     section.type === "catalog-explorer"
       ? [
@@ -169,7 +254,21 @@ export function withPages(theme, texts) {
             }),
           ],
         ]),
-        product: group([["details", single("product-details")]]),
+        product: group([
+          [
+            "details",
+            {
+              ...single("product-details"),
+              ...(texts.product.points?.length &&
+                withBlocks(
+                  texts.product.points.map(([text, icon]) => [
+                    "point",
+                    { text, icon },
+                  ]),
+                )),
+            },
+          ],
+        ]),
       },
     },
   };

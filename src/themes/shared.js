@@ -200,7 +200,7 @@ export function catalogExplorer(values) {
 }
 
 // Builds a theme whose preset home page is hero, categories, featured products and catalog.
-export function buildTheme({ id, name, sections, blocks, pages }) {
+export function buildTheme({ id, name, industry, sections, blocks, pages }) {
   const group = (type, entries) => ({
     order: [type],
     sections: { [type]: { type, settings: {}, ...withBlocks(entries) } },
@@ -210,6 +210,7 @@ export function buildTheme({ id, name, sections, blocks, pages }) {
     {
       id,
       name,
+      industry,
       version: "1.0.0",
       settings: THEME_SETTINGS,
       sectionGroups: ["header", "footer"],

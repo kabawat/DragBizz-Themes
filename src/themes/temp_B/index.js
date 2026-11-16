@@ -122,6 +122,7 @@ export default withPages(
   {
     id: "temp_B",
     name: "Grocery & Supermarket",
+    industry: "Grocery",
     version: "1.0.0",
     settings: THEME_SETTINGS,
     sectionGroups: ["header", "footer"],
@@ -147,6 +148,24 @@ export default withPages(
     },
     product: {
       related_heading: "More Fresh Picks in {category}",
+      labels: [
+        [
+          "fetching_fresh_grocery_product",
+          "Fetching fresh grocery product details...",
+        ],
+        ["t_15minute_delivery", "⚡ 15-Minute Delivery"],
+        ["shelf_life", "Shelf Life:"],
+        ["mrp_inclusive_of_all", "(MRP inclusive of all taxes)"],
+        ["select_pack_quantity", "Select Pack / Quantity"],
+        ["item_added_in_basket", "Item added in basket"],
+        ["added_to_your_instant", "Added to your instant grocery basket!"],
+        ["why_order_from_freshmart", "Why order from FRESHMART?"],
+        ["nutritional_values", "Nutritional Values"],
+      ],
+      points: [
+        ["Quality inspected twice daily directly from farm mandis", "check"],
+        ["Delivered in food-grade eco-friendly insulated pouches", "check"],
+      ],
     },
   },
 );

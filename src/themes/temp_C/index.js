@@ -11,6 +11,7 @@ import {
 export default buildTheme({
   id: "temp_C",
   name: "Pharmacy & Healthcare",
+  industry: "Health & Pharmacy",
   sections: [
     header({
       announcement: "Licensed Pharmacy Drug License: DL-2024-8849",
@@ -87,6 +88,40 @@ export default buildTheme({
     },
     product: {
       related_heading: "Similar Healthcare Products in {category}",
+      labels: [
+        [
+          "loading_pharmaceutical_clinical_details",
+          "Loading pharmaceutical clinical details...",
+        ],
+        [
+          "rx_required_doctor_prescription",
+          "Rx Required (Doctor Prescription Mandatory)",
+        ],
+        [
+          "overthecounter_otc_health_product",
+          "Over-The-Counter (OTC) Health Product",
+        ],
+        ["active_salt_composition", "Active Salt / Composition:"],
+        ["manufactured_by", "Manufactured by:"],
+        ["mrp_inclusive_of_all", "(MRP inclusive of all pharmaceutical taxes)"],
+        ["pack_size_quantity", "Pack Size / Quantity"],
+        ["healthcare_usage_advice", "Healthcare & Usage Advice:"],
+        ["safety_warnings_precautions", "Safety Warnings & Precautions"],
+        ["prescription_required", "Prescription Required"],
+        ["schedule_h_h1_drug", "Schedule H / H1 Drug Regulatory Compliance"],
+        ["active", "Active:"],
+        [
+          "in_compliance_with_the",
+          "⚠️ In compliance with the Drugs and Cosmetics Act, our registered pharmacist will verify your prescription before dispatch.",
+        ],
+        ["doctor_prescription_status", "Doctor Prescription Status"],
+        [
+          "doctor_prescription_verified_ready",
+          "📄 [Doctor Prescription Verified / Ready for Fulfillment]",
+        ],
+        ["cancel", "Cancel"],
+        ["confirm_add_to_basket", "Confirm & Add to Basket"],
+      ],
     },
   },
   blocks: {

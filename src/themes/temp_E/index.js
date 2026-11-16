@@ -11,6 +11,7 @@ import {
 export default buildTheme({
   id: "temp_E",
   name: "Computers & Electronics",
+  industry: "Electronics",
   sections: [
     header({
       announcement:
@@ -90,6 +91,16 @@ export default buildTheme({
     },
     product: {
       related_heading: "Similar Electronics in {category}",
+      labels: [
+        [
+          "loading_hardware_specifications",
+          "Loading hardware specifications...",
+        ],
+        ["sold_out", "Sold Out"],
+        ["select_configuration_model", "Select Configuration / Model"],
+        ["key_hardware_highlights", "Key Hardware Highlights"],
+        ["full_technical_specifications", "Full Technical Specifications"],
+      ],
     },
   },
   blocks: {

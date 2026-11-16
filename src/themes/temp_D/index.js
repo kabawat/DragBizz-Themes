@@ -11,6 +11,7 @@ import {
 export default buildTheme({
   id: "temp_D",
   name: "Fashion & Handloom",
+  industry: "Fashion",
   sections: [
     header({
       announcement:
@@ -90,6 +91,19 @@ export default buildTheme({
     },
     product: {
       related_heading: "Related Creations",
+      labels: [
+        [
+          "unfolding_artisan_creation_details",
+          "Unfolding artisan creation details...",
+        ],
+        ["archive_exhausted", "Archive Exhausted"],
+        ["shade_palette", "Shade / Palette:"],
+        ["option_length", "Option / Length:"],
+        ["weave_structure", "Weave Structure:"],
+        ["weight", "Weight:"],
+        ["care", "Care:"],
+        ["all", "All"],
+      ],
       related_eyebrow: "Harmonious Weaves",
     },
   },
