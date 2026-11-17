@@ -1,3 +1,6 @@
+import { menuLevel } from "../../../utils/fields.js";
+import { MENU_LINKS } from "../../shared.js";
+
 export default {
   type: "header",
   name: "Header",
@@ -35,7 +38,7 @@ export default {
   blocks: {
     nav_link: {
       name: "Menu link",
-      limit: 8,
+      limit: MENU_LINKS,
       settings: [
         {
           id: "label",
@@ -52,8 +55,9 @@ export default {
           default: "",
         },
         { id: "link", type: "url", label: "Link", default: "/" },
+        menuLevel,
       ],
     },
   },
-  maxBlocks: 8,
+  maxBlocks: MENU_LINKS,
 };

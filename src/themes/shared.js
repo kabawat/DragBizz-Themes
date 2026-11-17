@@ -5,6 +5,7 @@ import {
   checkbox,
   image,
   linkFields,
+  menuLevel,
   number,
   select,
   text,
@@ -40,6 +41,9 @@ const point = (name, limit) => ({
   settings: [text("text", "Text", "", 80)],
 });
 
+// Room for main links and the links in their dropdowns.
+export const MENU_LINKS = 24;
+
 const HEADER_FIELDS = [
   text("announcement", "Announcement bar", "", 200),
   text("helpline_label", "Helpline label", "", 60),
@@ -57,11 +61,15 @@ export function header(values) {
     blocks: {
       nav_link: {
         name: "Menu link",
-        limit: 8,
-        settings: [...linkFields, checkbox("highlight", "Highlight", false)],
+        limit: MENU_LINKS,
+        settings: [
+          ...linkFields,
+          checkbox("highlight", "Highlight", false),
+          menuLevel,
+        ],
       },
     },
-    maxBlocks: 8,
+    maxBlocks: MENU_LINKS,
   };
 }
 

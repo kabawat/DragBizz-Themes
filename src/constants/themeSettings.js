@@ -79,6 +79,13 @@ export const THEME_SETTINGS = [
   ),
   field("Brand", image("logo", "Logo (replaces the store logo)", "")),
   field("Brand", image("favicon", "Favicon (square image)", "")),
+  field("Custom code", {
+    id: "custom_css",
+    type: "css",
+    label: "Custom CSS (applies to your storefront pages)",
+    maxLength: 10000,
+    default: "",
+  }),
   // Two extra colour sets a section can switch to (its "Colour scheme" setting).
   field("Colour schemes", {
     ...color("scheme_light_background", "Light accent: background"),
