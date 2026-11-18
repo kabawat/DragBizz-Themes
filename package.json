@@ -1,6 +1,6 @@
 {
   "name": "@kabawat/store-themes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "DragBizz storefront theme documents, section schemas, presets and validation.",
   "repository": {
     "type": "git",
