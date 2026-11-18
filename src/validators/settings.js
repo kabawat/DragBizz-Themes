@@ -1,5 +1,6 @@
 const SAFE_LINK = /^(\/|#|https?:\/\/|mailto:|tel:)/i;
 const SAFE_IMAGE = /^https:\/\//i;
+const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 
 const textCheck = (fallbackMax) => (value, def) =>
   typeof value === "string" && value.length <= (def.maxLength ?? fallbackMax)
@@ -21,6 +22,23 @@ const CHECKS = {
     (value === "" || SAFE_IMAGE.test(value))
       ? null
       : "must be an https image URL",
+  // An empty colour keeps the store's own palette.
+  color: (value) =>
+    typeof value === "string" && (value === "" || HEX_COLOR.test(value))
+      ? null
+      : "must be a colour like #1d4ed8",
+  // A category slug from the store's catalog; empty means none chosen.
+  category: (value) =>
+    typeof value === "string" && value.length <= 120
+      ? null
+      : "must be a category",
+  // Product ids picked in the editor, in display order.
+  products: (value, def) =>
+    Array.isArray(value) &&
+    value.length <= (def.max ?? 12) &&
+    value.every((id) => typeof id === "string" && /^[a-f0-9]{24}$/i.test(id))
+      ? null
+      : `must be up to ${def.max ?? 12} products`,
   select: (value, def) =>
     def.options.includes(value)
       ? null
@@ -37,10 +55,4 @@ export const SETTING_TYPES = Object.freeze(Object.keys(CHECKS));
 
 export function checkSetting(def, value) {
   return CHECKS[def.type](value, def);
-}
-
-export function withDefaults(defs, values = {}) {
-  return Object.fromEntries(
-    defs.map((def) => [def.id, values[def.id] ?? def.default]),
-  );
 }

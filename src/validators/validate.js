@@ -1,4 +1,4 @@
-import { LIMITS, SCHEMA_VERSION } from "./document.js";
+import { LIMITS, SCHEMA_VERSION } from "../constants/document.js";
 import { checkSetting } from "./settings.js";
 
 const isObject = (value) =>

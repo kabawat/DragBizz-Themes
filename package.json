@@ -1,20 +1,49 @@
 {
-  "name": "@kabawat/storefront-themes",
+  "name": "@kabawat/store-themes",
   "version": "0.1.0",
   "description": "DragBizz storefront theme documents, section schemas, presets and validation.",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.js"
-  },
-  "files": [
-    "src"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kabawat/DragBizz-Themes.git"
   },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./thumbnails/*": "./thumbnails/*"
+  },
+  "files": [
+    "dist",
+    "thumbnails",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
+    "build": "rm -rf dist && cp -r src dist && node scripts/obfuscate-dist.mjs",
     "test": "node --test",
-    "lint": "npx @biomejs/biome@2.4.2 check"
+    "lint": "npx @biomejs/biome@2.4.2 check",
+    "verify": "npm run test && npm run build && npm pack --dry-run",
+    "prepublishOnly": "npm run verify"
+  },
+  "keywords": [
+    "dragbizz",
+    "store-themes",
+    "storefront",
+    "themes",
+    "templates",
+    "ecommerce",
+    "schema",
+    "javascript"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "javascript-obfuscator": "^5.9.0"
   }
 }

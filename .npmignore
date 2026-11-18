@@ -1,0 +1,12 @@
+src/
+test/
+scripts/
+*.test.js
+biome.json
+.yarnrc.yml
+.yarn/
+.pnp.*
+package-lock.json
+yarn.lock
+*.tgz
+coverage/

@@ -26,6 +26,19 @@ export default {
         "Experience titanium builds, 200MP periscope zoom cameras, Snapdragon 8 Gen 3 silicon, and lightning-fast 120W charging. Official brand warranties and guaranteed exchange bonuses.",
     },
     {
+      id: "image",
+      type: "image",
+      label: "Side image (shown instead of the offer card)",
+      default: "",
+    },
+    {
+      id: "image_alt",
+      type: "text",
+      label: "Side image description",
+      maxLength: 120,
+      default: "",
+    },
+    {
       id: "offer_enabled",
       type: "checkbox",
       label: "Show offer card",

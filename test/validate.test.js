@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resolveSections, themes, validateDocument } from "../src/index.js";
+import {
+  checkPublicThemeResponse,
+  effectiveColors,
+  missingAltText,
+  resolveSections,
+  themes,
+  validateDocument,
+  withPresetTemplates,
+} from "../src/index.js";
 
 const clone = (value) => structuredClone(value);
 const paths = (result) => result.errors.map((error) => error.path);
@@ -90,4 +98,107 @@ test("resolveSections fills defaults and skips disabled sections", () => {
       style: "primary",
     },
   });
+});
+
+test("checks theme-wide colours and fonts", () => {
+  const doc = clone(theme.preset);
+  doc.settings = { color_primary: "#0f766e", color_text: "", font: "poppins" };
+  assert.equal(validateDocument(doc, theme).valid, true);
+
+  doc.settings = { color_primary: "teal", font: "comic-sans" };
+  assert.deepEqual(paths(validateDocument(doc, theme)).sort(), [
+    "settings.color_primary",
+    "settings.font",
+  ]);
+});
+
+test("documents saved before page templates get them from the preset", () => {
+  const doc = clone(theme.preset);
+  delete doc.templates.category;
+  delete doc.templates.product;
+
+  const upgraded = withPresetTemplates(doc, theme);
+  assert.deepEqual(
+    upgraded.templates.category,
+    theme.preset.templates.category,
+  );
+  assert.deepEqual(upgraded.templates.product, theme.preset.templates.product);
+  assert.equal(upgraded.templates.home, doc.templates.home);
+  assert.equal(validateDocument(upgraded, theme).valid, true);
+  assert.equal(withPresetTemplates(upgraded, theme), upgraded);
+});
+
+test("finds images without a description, skipping hidden sections", () => {
+  const fashion = themes.temp_D;
+  const doc = clone(fashion.preset);
+  assert.deepEqual(missingAltText(doc, fashion), []);
+
+  doc.templates.home.sections.hero.settings = { image_alt: " " };
+  assert.deepEqual(missingAltText(doc, fashion), [
+    { group: "home", section: "hero", name: "Hero banner" },
+  ]);
+
+  doc.templates.home.sections.hero.disabled = true;
+  assert.deepEqual(missingAltText(doc, fashion), []);
+});
+
+test("every theme names its industry for the library filter", () => {
+  for (const theme of Object.values(themes)) {
+    assert.equal(typeof theme.industry, "string", theme.id);
+    assert.ok(theme.industry.length > 0, theme.id);
+  }
+});
+
+test("featured products can show a category or picked products", () => {
+  const doc = clone(theme.preset);
+  doc.templates.home.sections.featured.settings = {
+    source: "picked",
+    products: ["6ad4b6206f4697221df5f87f", "6ad4b6206f4697221df5f87c"],
+    category: "dairy-bakery",
+  };
+  assert.equal(validateDocument(doc, theme).valid, true);
+
+  doc.templates.home.sections.featured.settings = {
+    products: ["x"],
+    source: "all",
+  };
+  assert.deepEqual(paths(validateDocument(doc, theme)).sort(), [
+    "templates.home.sections.featured.settings.products",
+    "templates.home.sections.featured.settings.source",
+  ]);
+});
+
+test("sections can switch to a colour scheme", () => {
+  const doc = clone(theme.preset);
+  doc.templates.home.sections.hero.settings = { color_scheme: "dark" };
+  doc.settings = { scheme_dark_background: "#111111" };
+  assert.equal(validateDocument(doc, theme).valid, true);
+  doc.templates.home.sections.hero.settings = { color_scheme: "neon" };
+  assert.equal(validateDocument(doc, theme).valid, false);
+});
+
+test("effective colours fall back to the store palette", () => {
+  const colors = effectiveColors("emerald-green", { color_text: "#111111" });
+  assert.equal(colors.color_text, "#111111");
+  assert.equal(colors.color_primary, "#047857");
+  assert.equal(effectiveColors("unknown").color_primary, "#1d4ed8");
+});
+
+test("public theme responses follow the shared contract", () => {
+  assert.deepEqual(
+    checkPublicThemeResponse({
+      data: { document: theme.preset, preview: null },
+    }),
+    [],
+  );
+  assert.deepEqual(
+    checkPublicThemeResponse({
+      data: { document: theme.preset, preview: { name: "Mine" } },
+    }),
+    [],
+  );
+  assert.deepEqual(checkPublicThemeResponse({ data: { document: null } }), [
+    "preview must be null or { name }",
+    "document.theme must name a known theme",
+  ]);
 });
