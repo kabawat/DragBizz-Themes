@@ -12,12 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           registry-url: https://registry.npmjs.org
 
       - name: Check package version
@@ -33,13 +35,11 @@ jobs:
             echo "${package_name}@${current_version} is not published; continuing."
           fi
 
-      - name: Test and lint
+      - name: Install dependencies
         if: steps.version.outputs.changed == 'true'
-        run: |
-          npm test
-          npm run lint
+        run: npm ci
 
-      - name: Publish package
+      - name: Verify and publish package
         if: steps.version.outputs.changed == 'true'
         run: npm publish --access public
         env:

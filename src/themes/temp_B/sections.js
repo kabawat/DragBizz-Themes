@@ -7,7 +7,7 @@ import {
   text,
   textarea,
   url,
-} from "../../fields.js";
+} from "../../utils/fields.js";
 
 export const header = {
   type: "header",

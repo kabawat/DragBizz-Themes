@@ -1,5 +1,6 @@
-import { withBlocks } from "../blocks.js";
-import { SCHEMA_VERSION } from "../document.js";
+import { SCHEMA_VERSION } from "../constants/document.js";
+import { THEME_SETTINGS } from "../constants/themeSettings.js";
+import { withBlocks } from "../utils/blocks.js";
 import {
   checkbox,
   image,
@@ -9,8 +10,7 @@ import {
   text,
   textarea,
   url,
-} from "../fields.js";
-import { THEME_SETTINGS } from "../themeSettings.js";
+} from "../utils/fields.js";
 import { withPages } from "./pages.js";
 
 // Keeps only the fields a theme gives a value for, with that value as the default.

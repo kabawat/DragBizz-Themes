@@ -1,4 +1,4 @@
-import { color, image, select } from "./fields.js";
+import { color, image, select } from "../utils/fields.js";
 
 // Theme-wide look, the same for every theme. Each value left empty or at "store"
 // keeps the store's branding palette and font, so a new theme looks like the store.

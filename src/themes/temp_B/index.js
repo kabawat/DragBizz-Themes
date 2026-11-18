@@ -1,6 +1,6 @@
-import { withBlocks } from "../../blocks.js";
-import { SCHEMA_VERSION } from "../../document.js";
-import { THEME_SETTINGS } from "../../themeSettings.js";
+import { SCHEMA_VERSION } from "../../constants/document.js";
+import { THEME_SETTINGS } from "../../constants/themeSettings.js";
+import { withBlocks } from "../../utils/blocks.js";
 import { withPages } from "../pages.js";
 import {
   catalogExplorer,

@@ -1,5 +1,5 @@
-import { withBlocks } from "../blocks.js";
-import { checkbox, select, text, textarea } from "../fields.js";
+import { withBlocks } from "../utils/blocks.js";
+import { checkbox, select, text, textarea } from "../utils/fields.js";
 
 // Category, search and product pages, added to every theme. Texts may use {category} or {query}.
 export const PAGE_TEMPLATES = ["category", "search", "product"];

@@ -1,25 +1,7 @@
-import { THEME_SETTINGS } from "../../themeSettings.js";
+import { THEME_SETTINGS } from "../../constants/themeSettings.js";
 import { withPages } from "../pages.js";
 import preset from "./preset.js";
-import footer from "./sections/footer.js";
-import header from "./sections/header.js";
-import hero from "./sections/hero.js";
-import {
-  catalogExplorer,
-  categoryList,
-  featuredProducts,
-  trustBanner,
-} from "./sections/home.js";
-
-const sections = [
-  header,
-  footer,
-  hero,
-  categoryList,
-  featuredProducts,
-  catalogExplorer,
-  trustBanner,
-];
+import sections from "./sections/index.js";
 
 export default withPages(
   {
@@ -30,9 +12,7 @@ export default withPages(
     settings: THEME_SETTINGS,
     sectionGroups: ["header", "footer"],
     templates: ["home"],
-    sections: Object.fromEntries(
-      sections.map((section) => [section.type, section]),
-    ),
+    sections,
     preset,
   },
   {

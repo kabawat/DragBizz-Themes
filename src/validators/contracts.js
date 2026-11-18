@@ -1,4 +1,4 @@
-import { getTheme } from "./index.js";
+import { getTheme } from "../themes/index.js";
 import { validateDocument } from "./validate.js";
 
 // The body of GET /public/theme, which Core sends and the Catalog app reads:

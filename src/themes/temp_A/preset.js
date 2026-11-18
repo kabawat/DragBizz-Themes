@@ -1,5 +1,5 @@
-import { withBlocks } from "../../blocks.js";
-import { SCHEMA_VERSION } from "../../document.js";
+import { SCHEMA_VERSION } from "../../constants/document.js";
+import { withBlocks } from "../../utils/blocks.js";
 
 const navLink = (label, link, mobileLabel = "") => [
   "nav_link",

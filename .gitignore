@@ -1,1 +1,38 @@
+# Dependencies
 node_modules/
+
+# Build
+dist/
+
+# Packages
+*.tgz
+
+# Test / coverage
+coverage/
+
+# Caches
+.cache/
+.yarn/install-state.gz
+.yarn/cache
+.pnp.*
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
