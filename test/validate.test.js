@@ -26,9 +26,13 @@ for (const theme of Object.values(themes)) {
       const empty = { order: ["s"], sections: { s: { type: section.type } } };
       const key = section.templates[0];
       const doc = clone(theme.preset);
-      (theme.sectionGroups.includes(key) ? doc.sectionGroups : doc.templates)[
-        key
-      ] = empty;
+      if (key === "page") {
+        doc.templates["page.test"] = { title: "Test", ...empty };
+      } else {
+        (theme.sectionGroups.includes(key) ? doc.sectionGroups : doc.templates)[
+          key
+        ] = empty;
+      }
       assert.equal(validateDocument(doc, theme).valid, true, section.type);
     }
   });

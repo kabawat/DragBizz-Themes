@@ -62,6 +62,12 @@ export const color = (id, label) => ({
   default: "",
 });
 
+// A menu link can sit inside the main link before it, which then opens a dropdown.
+export const menuLevel = select("level", "Show as", ["main", "sub"], "main", {
+  main: "Main menu link",
+  sub: "Inside the link above (dropdown)",
+});
+
 export const linkFields = [
   text("label", "Label", "Link", 60),
   url("link", "Link", "/"),

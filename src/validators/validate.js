@@ -1,4 +1,7 @@
+import { checkAlternates } from "../alternates.js";
 import { LIMITS, SCHEMA_VERSION } from "../constants/document.js";
+import { isAlternateKey } from "../keys.js";
+import { isPageKey, PAGE_FIELDS, pageKeys, templateType } from "../pages.js";
 import { checkSetting } from "./settings.js";
 
 const isObject = (value) =>
@@ -100,7 +103,7 @@ function checkGroup(theme, key, group, path, errors) {
       });
       continue;
     }
-    if (!schema.templates.includes(key)) {
+    if (!schema.templates.includes(templateType(key))) {
       errors.push({
         path: `${sectionPath}.type`,
         message: `cannot be used in ${key}`,
@@ -126,13 +129,63 @@ function checkGroup(theme, key, group, path, errors) {
   }
 }
 
-function checkKeyed(theme, allowed, value, path, errors) {
+// One section on its own (a saved pattern), checked against its theme without a placement.
+export function validateSection(theme, section, path = "") {
+  const errors = [];
+  const schema = theme.sections[section?.type];
+  if (!isObject(section) || !schema) {
+    return [
+      { path: `${path}.type`, message: "is not a section of this theme" },
+    ];
+  }
+  if (section.disabled !== undefined && typeof section.disabled !== "boolean") {
+    errors.push({ path: `${path}.disabled`, message: "must be true or false" });
+  }
+  checkSettings(
+    schema.settings,
+    section.settings ?? {},
+    `${path}.settings`,
+    errors,
+  );
+  checkBlocks(schema, section, path, errors);
+  return errors;
+}
+
+// A page's title is required; its search-engine texts may be empty.
+function checkPageFields(page, path, errors) {
+  if (!isObject(page)) return;
+  for (const [id, max] of Object.entries(PAGE_FIELDS)) {
+    const value = page[id];
+    const required = id === "title";
+    if (
+      (value === undefined && !required) ||
+      (typeof value === "string" &&
+        value.length <= max &&
+        (!required || value.trim()))
+    )
+      continue;
+    errors.push({
+      path: `${path}.${id}`,
+      message: required
+        ? `must be text of 1 to ${max} characters`
+        : `must be text up to ${max} characters`,
+    });
+  }
+}
+
+function checkKeyed(theme, allowed, value, path, errors, pages = false) {
   if (!isObject(value)) {
     errors.push({ path, message: "must be an object" });
     return;
   }
   for (const [key, group] of Object.entries(value)) {
-    if (allowed.includes(key))
+    if (pages && isPageKey(key)) {
+      checkPageFields(group, `${path}.${key}`, errors);
+      checkGroup(theme, key, group, `${path}.${key}`, errors);
+    } else if (pages && isAlternateKey(key)) {
+      // Title and assignment are checked with the other alternates (checkAlternates).
+      checkGroup(theme, key, group, `${path}.${key}`, errors);
+    } else if (allowed.includes(key))
       checkGroup(theme, key, group, `${path}.${key}`, errors);
     else
       errors.push({
@@ -173,7 +226,21 @@ export function validateDocument(document, theme) {
     "sectionGroups",
     errors,
   );
-  checkKeyed(theme, theme.templates, document.templates, "templates", errors);
+  checkKeyed(
+    theme,
+    theme.templates,
+    document.templates,
+    "templates",
+    errors,
+    true,
+  );
+  if (isObject(document.templates)) errors.push(...checkAlternates(document));
+  if (pageKeys(document).length > LIMITS.pages) {
+    errors.push({
+      path: "templates",
+      message: `allows at most ${LIMITS.pages} pages`,
+    });
+  }
 
   return { valid: errors.length === 0, errors };
 }

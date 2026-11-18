@@ -1,14 +1,17 @@
 import { withBlocks } from "../utils/blocks.js";
 import { checkbox, select, text, textarea } from "../utils/fields.js";
+import { CONTENT_SECTIONS } from "./content.js";
 
 // Category, search and product pages, added to every theme. Texts may use {category} or {query}.
 export const PAGE_TEMPLATES = ["category", "search", "product"];
 
 // Sections that also fit on these pages, besides their home page use.
+// "page" is the store's own pages (see ../pages.js).
 const ALSO_ON = {
   "catalog-explorer": ["category", "search"],
-  "featured-products": PAGE_TEMPLATES,
-  "category-list": PAGE_TEMPLATES,
+  "featured-products": [...PAGE_TEMPLATES, "page"],
+  "category-list": [...PAGE_TEMPLATES, "page"],
+  hero: ["page"],
 };
 
 const categoryHeading = (values) => ({
@@ -224,6 +227,7 @@ export function withPages(theme, texts) {
       categoryHeading(texts.category),
       searchHeading(texts.search),
       productDetails(texts.product),
+      ...CONTENT_SECTIONS,
     ]
       .map(withLayout)
       .map((section) => [section.type, section]),
